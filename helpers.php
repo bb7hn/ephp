@@ -1,8 +1,11 @@
 <?php
 //require configuration
 require_once 'config.php';
+
 function require_helpers($dir='helpers'){
     foreach (glob("$dir/*") as $filename) {
+        // TODO REMEMBER TO DELETE THIS LATER
+        //echo $filename . '<hr>';
         if(is_dir($filename)){
             require_helpers($filename);
         }
@@ -14,6 +17,9 @@ function require_helpers($dir='helpers'){
         }
     }
 }
+
+//require core helpers
+require_helpers('helpers/.core');
 //require helpers
 require_helpers();
 ?>

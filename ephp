@@ -1,6 +1,16 @@
 #!/usr/bin/env php
 <?php
-    //check arguments
-    var_dump($argv);
+    $command_list = [
+        "create-service",
+        "delete-service",
+        "delete-model",
+        "delete-model",
+    ];
+    //TODO check arguments and handle proccess or warn user
+    //var_dump($argv);
+    $command = $argv[1];
+    if(!in_array($command, $command_list)){
+        echo "Invalid command".PHP_EOL;
+    }
 
 ?>

@@ -3,6 +3,7 @@
 - It is just a basic rest api framework
 - created for personal usage and can be buggy
 ## Important Notes
+- don't forget to run composer install
 - editing files in /.core/ will cause issues on updates
 - if you want to create an helper done it in helpers folder whole sub directories will be included automatically.
 - editing helpers.php is not suggested too.

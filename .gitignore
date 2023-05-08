@@ -1,0 +1,3 @@
+vendor
+.core/auth/secret
+.php-cs-fixer.cache

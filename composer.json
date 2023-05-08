@@ -1,0 +1,20 @@
+{
+    "name": "ephp/ephp",
+    "description": "Easy php is \"easy to use\" php micro service framework",
+    "type": "project",
+    "license": "mit",
+    "autoload": {
+        "psr-4": {
+            "Ephp\\Ephp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Batuhan Ozen",
+            "email": "iletisim@batuhanozen.com"
+        }
+    ],
+    "require": {
+        "firebase/php-jwt": "^6.4"
+    }
+}

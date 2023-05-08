@@ -3,7 +3,7 @@ services:
   db:
     image: mysql:8.0
     environment:
-      MYSQL_DATABASE: EPHP
+      MYSQL_DATABASE: test
       MYSQL_ALLOW_EMPTY_PASSWORD: yes
     ports:
       - "3306:3306"
@@ -13,7 +13,6 @@ services:
     image: phpmyadmin/phpmyadmin
     environment:
       PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: secret
     ports:
       - "8080:80"
     depends_on:
@@ -21,6 +20,15 @@ services:
   app:
       environment:
         APP_ENV: dev
+        DB_HOST: db
+        DB_USER: root
+        DB_PASS:
+        DB_TABLE: test
+        DB_PORT: 3306
+        DB_CHAR_SET: utf8mb4
+        DB_DEFAULT_FETCH_MODE: 5
+        DB_ERRMODE: 2
+        #TOKEN_SECRET: my_secret
       build:
         context: ./
         dockerfile: Dockerfile

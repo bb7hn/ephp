@@ -1,4 +1,5 @@
 <?php
+use EPHP\CORE\Core;
 
 //require configuration
 require_once 'config.php';
@@ -21,11 +22,13 @@ function require_helpers(array $paths=['helpers'])
 }
 
 $helper_paths = [
-    __DIR__.'/.core',
     __DIR__.'/helpers',
-    __DIR__.'/helpers/.core',
 ];
-/* var_dump($helper_paths);
-echo'<br><br><hr/>'; */
 //require helpers
 require_helpers($helper_paths);
+
+//in the future it will be a seperate package
+//require core class
+require_once __DIR__.'/.core/index.php';
+
+$app = new Core();

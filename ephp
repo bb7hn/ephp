@@ -1,16 +1,62 @@
 #!/usr/bin/env php
 <?php
-    $command_list = [
-        "create-service",
-        "delete-service",
-        "delete-model",
-        "delete-model",
-    ];
-    //TODO check arguments and handle proccess or warn user
-    //var_dump($argv);
-    $command = $argv[1];
-    if(!in_array($command, $command_list)){
-        echo "Invalid command".PHP_EOL;
-    }
+error_reporting(E_ALL ^ E_WARNING);
+$command_list = [
+    "--help",
+    "create-service",
+    "delete-service",
 
-?>
+    "create-helper",
+    "delete-helper",
+
+    "create-model",
+    "delete-model",
+];
+//TODO check arguments and handle proccess or warn user
+//var_dump($argv);
+$command = $argv[1];
+if(!in_array($command, $command_list)) {
+    echo "Invalid command".PHP_EOL;
+}
+
+function create_helper(string $helper_name)
+{
+    if(!$helper_name) {
+        echo "Invalid helper name. You can not create a helper without name".PHP_EOL;
+        return;
+    }
+    if(file_exists(__DIR__."/helpers/".$helper_name.".php")) {
+        echo "Already there is a helper with this name".PHP_EOL;
+        return;
+    }
+    $helper_template = file_get_contents(__DIR__."/.core/templates/helper_template.txt");
+    $helper_template = str_replace("{{helper_name}}", $helper_name, $helper_template);
+    file_put_contents(__DIR__."/helpers/".$helper_name.".php", $helper_template);
+}
+function delete_helper(string $helper_name)
+{
+    if(!$helper_name) {
+        echo "Invalid helper name. You can not delete a helper without name".PHP_EOL;
+        return;
+    }
+    if(!file_exists(__DIR__."/helpers/".$helper_name.".php")) {
+        echo "$helper_name is not a helper".PHP_EOL;
+        return;
+    }
+    unlink(__DIR__."/helpers/".$helper_name.".php");
+    echo "Helper deleted successfully.".PHP_EOL;
+    return;
+
+}
+
+switch ($command) {
+    case 'create-helper':
+        create_helper($argv[2]);
+        break;
+    case 'delete-helper':
+        delete_helper($argv[2]);
+        break;
+    default:
+        # code...
+        break;
+}

@@ -4,8 +4,9 @@
 - created for personal usage and can be buggy
 ## Important Notes
 - don't forget to run composer install
+- do not forget to run `chmod +x ephp` command
 - editing files in /.core/ will cause issues on updates
-- if you want to create an helper done it in helpers folder whole sub directories will be included automatically.
+- if you want to create an helper do it in helpers folder whole sub directories will be included automatically.
 - editing helpers.php is not suggested too.
 ## How to guide
 - there is nothing yet i will append sth. after i completed

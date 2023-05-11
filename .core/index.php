@@ -63,7 +63,7 @@ class Core
         return JWT::encode($payload, $JWT_KEY, 'HS256');
 
     }
-    public function validate_token(string $token = "", $JWT_EXPIRE_DAYS=10): bool|\stdClass
+    public function validate_token(string $token = "", $JWT_EXPIRE_DAYS=10): false|\stdClass
     {
         $JWT_KEY = $this->get_jwt_secret();
         try {

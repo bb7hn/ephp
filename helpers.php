@@ -31,4 +31,6 @@ require_helpers($helper_paths);
 //require core class
 require_once __DIR__.'/.core/index.php';
 
-$app = new Core();
+$GLOBALS["APP"] = new Core();
+
+$app = $GLOBALS["APP"];

@@ -1,5 +1,111 @@
 #!/usr/bin/env php
 <?php
+
+class ephp
+{
+    public function create_helper(string $helper_name)
+    {
+        if(!$helper_name) {
+            echo "Invalid helper name. You can not create a helper without name".PHP_EOL;
+            return;
+        }
+        if(file_exists(__DIR__."/helpers/".$helper_name.".php")) {
+            echo "Already there is a helper with that name".PHP_EOL;
+            return;
+        }
+        $helper_template = file_get_contents(__DIR__."/.core/templates/helper_template.txt");
+        $helper_template = str_replace("{{helper_name}}", $helper_name, $helper_template);
+        file_put_contents(__DIR__."/helpers/".$helper_name.".php", $helper_template);
+    }
+    public function delete_helper(string $helper_name)
+    {
+        if(!$helper_name) {
+            echo "Invalid helper name. You can not delete a helper without name".PHP_EOL;
+            return;
+        }
+        if(!file_exists(__DIR__."/helpers/".$helper_name.".php")) {
+            echo "$helper_name is not a helper".PHP_EOL;
+            return;
+        }
+        unlink(__DIR__."/helpers/".$helper_name.".php");
+        echo "Helper deleted successfully.".PHP_EOL;
+        return;
+
+    }
+
+    public function create_service(string $service_name, bool $isPublic=false)
+    {
+        if(!$service_name) {
+            echo "Invalid service name. You can not create a service without name".PHP_EOL;
+            return;
+        }
+        $service_file = __DIR__."/services/".($isPublic?'public':'private').'/'.$service_name.".php";
+        
+        if(file_exists($service_file)) {
+            echo "Already there is a service with that name".PHP_EOL;
+            return;
+        }
+
+        $service_template = file_get_contents(__DIR__."/.core/templates/service_template_".($isPublic?'public':'private').".txt");
+        $service_template = str_replace("{{service_name}}", $service_name, $service_template);
+        file_put_contents($service_file, $service_template);
+    }
+
+    public function delete_service(string $service_name)
+    {
+        if(!$service_name) {
+            echo "Invalid service name. You can not delete a service without name".PHP_EOL;
+            return;
+        }
+        
+        $service_files = [
+            __DIR__."/services/public/".$service_name.".php",
+            __DIR__."/services/private/".$service_name.".php"
+        ];
+
+        $is_public_file_exists = file_exists($service_files[0]);
+        $is_private_file_exists = file_exists($service_files[1]);
+
+        if(!$is_private_file_exists && !$is_public_file_exists) {
+            echo "$service_name is not a service".PHP_EOL;
+            return;
+        } elseif($is_private_file_exists && $is_public_file_exists) {
+            echo "There are two services with name $service_name".PHP_EOL;
+            echo "Please choose one from them or both.".PHP_EOL;
+            echo "type \"pb\" for PUBLIC \"pr\" for PRIVATE \"b\" for BOTH .".PHP_EOL;
+            $service_to_delete = trim(fgets(STDIN));
+            var_dump($service_to_delete);
+            if($service_to_delete === "pb") {
+                unlink($service_files[0]);
+                echo "Service deleted successfully.".PHP_EOL;
+                return;
+            } elseif($service_to_delete === "pr") {
+                unlink($service_files[1]);
+                echo "Service deleted successfully.".PHP_EOL;
+                return;
+            } elseif($service_to_delete === "b") {
+                unlink($service_files[0]);
+                unlink($service_files[1]);
+                echo "Services deleted successfully.".PHP_EOL;
+                return;
+            } else {
+                echo PHP_EOL.PHP_EOL."Please enter a valid option". PHP_EOL.PHP_EOL.PHP_EOL;
+                $this->delete_service($service_name);
+            }
+            return;
+        } elseif($is_private_file_exists) {
+            unlink($service_files[1]);
+            echo "Service deleted successfully. (private services)".PHP_EOL;
+            return;
+        } else {
+            unlink($service_files[0]);
+            echo "Service deleted successfully. (public services)".PHP_EOL;
+            return;
+        }
+
+    }
+}
+
 error_reporting(E_ALL ^ E_WARNING);
 $command_list = [
     "--help",
@@ -18,43 +124,21 @@ $command = $argv[1];
 if(!in_array($command, $command_list)) {
     echo "Invalid command".PHP_EOL;
 }
-
-function create_helper(string $helper_name)
-{
-    if(!$helper_name) {
-        echo "Invalid helper name. You can not create a helper without name".PHP_EOL;
-        return;
-    }
-    if(file_exists(__DIR__."/helpers/".$helper_name.".php")) {
-        echo "Already there is a helper with this name".PHP_EOL;
-        return;
-    }
-    $helper_template = file_get_contents(__DIR__."/.core/templates/helper_template.txt");
-    $helper_template = str_replace("{{helper_name}}", $helper_name, $helper_template);
-    file_put_contents(__DIR__."/helpers/".$helper_name.".php", $helper_template);
-}
-function delete_helper(string $helper_name)
-{
-    if(!$helper_name) {
-        echo "Invalid helper name. You can not delete a helper without name".PHP_EOL;
-        return;
-    }
-    if(!file_exists(__DIR__."/helpers/".$helper_name.".php")) {
-        echo "$helper_name is not a helper".PHP_EOL;
-        return;
-    }
-    unlink(__DIR__."/helpers/".$helper_name.".php");
-    echo "Helper deleted successfully.".PHP_EOL;
-    return;
-
-}
-
+$ephp = new ephp();
+$name = $argv[2]?:'';
 switch ($command) {
     case 'create-helper':
-        create_helper($argv[2]);
+        $ephp->create_helper($name);
         break;
     case 'delete-helper':
-        delete_helper($argv[2]);
+        $ephp->delete_helper($name);
+        break;
+    case 'create-service':
+        $is_public = $argv[3] === '--public';
+        $ephp->create_service($name, $is_public);
+        break;
+    case 'delete-service':
+        $ephp->delete_service($name, $is_public);
         break;
     default:
         # code...

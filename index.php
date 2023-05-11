@@ -19,7 +19,6 @@ if(!$service) {
 }
 
 $service_path = check_service($service);
-
 if(!$service_path) {
     $app->set_response([], 400, 'Invalid service');
     exit;

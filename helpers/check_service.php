@@ -8,7 +8,9 @@ function check_service($service):string|false
     $public_service = $public_path . $service . '.php';
     $private_service = $private_path . $service . '.php';
     
-    if(file_exists($public_service)) {
+    if(file_exists($public_service) && file_exists($private_service)) {
+        return $GLOBALS['AUTH_TOKEN']==''?$public_service:$private_service;
+    } elseif(file_exists($public_service)) {
         return $public_service;
     } elseif(file_exists($private_service)) {
         return $private_service;

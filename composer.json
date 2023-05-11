@@ -1,11 +1,11 @@
 {
-    "name": "ephp/ephp",
+    "name": "batuhanozen/ephp",
     "description": "ephp(Easy Php) micro is \"easy to use\" php micro service framework",
     "type": "project",
     "license": "mit",
     "autoload": {
         "psr-4": {
-            "batuhanozen\\ephp\\": "./"
+            "ephp\\micro\\": "./"
         }
     },
     "authors": [

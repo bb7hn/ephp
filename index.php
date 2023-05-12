@@ -1,5 +1,14 @@
 <?php
-require_once 'config.php';
+
+use ephp\Core;
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+$GLOBALS["APP"] = new Core();
+
+$app = $GLOBALS["APP"];
+
+require_once './helpers.php';
 
 $request_payload = file_get_contents('php://input');
 

@@ -1,4 +1,5 @@
 <?php
+
 $test_token = $app->create_token();
 $invalid_token = $test_token."invalid";
 

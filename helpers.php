@@ -1,8 +1,6 @@
 <?php
-use EPHP\CORE\Core;
 
-//require configuration
-require_once 'config.php';
+use ephp\Core;
 
 function require_helpers(array $paths=['helpers'])
 {
@@ -26,11 +24,3 @@ $helper_paths = [
 ];
 //require helpers
 require_helpers($helper_paths);
-
-//in the future it will be a seperate package
-//require core class
-require_once __DIR__.'/.core/index.php';
-
-$GLOBALS["APP"] = new Core();
-
-$app = $GLOBALS["APP"];

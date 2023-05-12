@@ -3,11 +3,6 @@
     "description": "ephp(Easy Php) micro is \"easy to use\" php micro service framework",
     "type": "project",
     "license": "mit",
-    "autoload": {
-        "psr-4": {
-            "ephp\\micro\\": "./"
-        }
-    },
     "authors": [
         {
             "name": "Batuhan Ozen",
@@ -15,6 +10,6 @@
         }
     ],
     "require": {
-        "firebase/php-jwt": "^6.4"
+        "batuhanozen/ephp-core": "dev-main"
     }
 }
